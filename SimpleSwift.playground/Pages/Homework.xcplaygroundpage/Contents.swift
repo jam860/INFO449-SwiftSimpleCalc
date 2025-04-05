@@ -27,13 +27,254 @@ print("Welcome to the UW Calculator Playground")
 //: For this latter set of operations, it is safe to assume that `["count"]` (with no additional arguments) is 0, `["avg"]` is also 0, and `["fact"]` is 0. `["1", "fact"]` should return 1, and `["0", "fact"]` should also return 1. (Yes, 0-factorial is 1. True story.)
 //: 
 func calculate(_ args: [String]) -> Int {
-    return -1
+    
+    guard args.count >= 2 else {
+        return 0;
+    }
+    
+    var argsCopy = args;
+    var arr : [String] = ["+", "-", "*", "/", "%", "count", "avg", "fact"];
+    var expression : String = "";
+
+
+    var index = 0;
+    while (index != argsCopy.count) {
+        if (arr.contains(argsCopy[index])) {
+            expression = argsCopy[index];
+            argsCopy.remove(at: index);
+        }
+        else {
+            index += 1;
+
+        }
+    }
+    
+
+    switch expression {
+        case "+":
+            var total : Int = 0;
+            for i in 0...argsCopy.count-1 {
+                if let validNum = Int(argsCopy[i]) {
+                    total += validNum;
+                } else {
+                    return -1
+                }
+            }
+            return total
+        case "-":
+            var total : Int = 0;
+            if let validNumberBegin = Int(argsCopy[0]) {
+                total = validNumberBegin;
+            } else {
+                return -1;
+            }
+            for i in 1...argsCopy.count-1 {
+                if let validNum = Int(argsCopy[i]) {
+                    total -= validNum
+                } else {
+                    return -1
+                }
+            }
+            return total;
+        case "*":
+            var total : Int = 1;
+            for i in 0...argsCopy.count-1 {
+                if let validNum = Int(argsCopy[i]) {
+                    total *= validNum;
+                } else {
+                    return -1
+                }
+            }
+            return total
+        case "/":
+            var total : Int = 0;
+            if let validNumberBegin = Int(argsCopy[0]) {
+                total = validNumberBegin;
+            } else {
+                return -1;
+            }
+            for i in 1...argsCopy.count-1 {
+                if let validNum = Int(argsCopy[i]) {
+                    total /= validNum
+                } else {
+                    return -1
+                }
+            }
+            return total;
+        case "%":
+            var total : Int = 0;
+            if let validNumberBegin = Int(argsCopy[0]) {
+                total = validNumberBegin;
+            } else {
+                return -1;
+            }
+            for i in 1...argsCopy.count-1 {
+                if let validNum = Int(argsCopy[i]) {
+                    total %= validNum //this only works with ints
+                } else {
+                    return -1
+                }
+            }
+            return total;
+        case "count":
+            return argsCopy.count;
+        case "avg":
+            var total : Int = 0;
+            var counter : Int = 0;
+            for i in 0...argsCopy.count-1 {
+                if let validNum = Int(argsCopy[i]) {
+                    total += validNum;
+                    counter += 1;
+                } else {
+                    return -1;
+                }
+            }
+            return total/counter;
+        case "fact":
+            if let validNum = Int(argsCopy[0]) {
+                if (validNum == 0) {
+                    return 1;
+                } else if (Int(argsCopy[0]) == nil) {
+                    return -1;
+                } else {
+                    var total : Int = validNum;
+                    var counter = validNum-1;
+                    while (counter != 0) {
+                        total = total * counter;
+                        counter -= 1;
+                    }
+                    return total;
+                }
+            }
+            return -1;
+        default:
+            return -1
+    }
+        
 }
 
 func calculate(_ arg: String) -> Int {
-    return -1
+    guard arg.count > 0 else {
+        return 0;
+    }
+    
+    var argsCopy = arg.split(separator: " ");
+    
+    var expression : String = ""
+    var arr : [String] = ["+", "-", "*", "/", "%", "count", "avg", "fact"];
+    var counter : Int = 0
+    while (counter <= argsCopy.count-1) {
+        let stringVal = String(argsCopy[counter]);
+        if (arr.contains(stringVal)) {
+            expression = stringVal;
+            argsCopy.remove(at: counter);
+        } else {
+            counter += 1;
+        }
+    }
+    
+    switch expression {
+        case "+":
+            var total : Int = 0;
+            for i in 0...argsCopy.count-1 {
+                if let validNum = Int(argsCopy[i]) {
+                    total += validNum;
+                } else {
+                    return -1;
+                }
+            }
+            return total;
+        case "-":
+            var total : Int = 0;
+            if let validNumberBegin = Int(argsCopy[0]) {
+                total = validNumberBegin;
+            } else {
+                return -1;
+            }
+            for i in 1...argsCopy.count-1 {
+                if let validNum = Int(argsCopy[i]) {
+                    total -= validNum
+                } else {
+                    return -1
+                }
+            }
+            return total;
+        case "*":
+            var total : Int = 1;
+            for i in 0...argsCopy.count-1 {
+                if let validNum = Int(argsCopy[i]) {
+                    total *= validNum;
+                } else {
+                    return -1
+                }
+            }
+            return total
+        case "/":
+            var total : Int = 0;
+            if let validNumberBegin = Int(argsCopy[0]) {
+                total = validNumberBegin;
+            } else {
+                return -1;
+            }
+            for i in 1...argsCopy.count-1 {
+                if let validNum = Int(argsCopy[i]) {
+                    total /= validNum
+                } else {
+                    return -1
+                }
+            }
+            return total;
+        case "%":
+            var total : Int = 0;
+            if let validNumberBegin = Int(argsCopy[0]) {
+                total = validNumberBegin;
+            } else {
+                return -1;
+            }
+            for i in 1...argsCopy.count-1 {
+                if let validNum = Int(argsCopy[i]) {
+                    total %= validNum //this works?? idk lol
+                } else {
+                    return -1
+                }
+            }
+            return total;
+        case "count":
+            return argsCopy.count;
+        case "avg":
+            var total : Int = 0;
+            var counter : Int = 0;
+            for i in 0...argsCopy.count-1 {
+                if let validNum = Int(argsCopy[i]) {
+                    total += validNum;
+                    counter += 1;
+                } else {
+                    return -1;
+                }
+            }
+            return total/counter;
+        case "fact":
+            if let validNum = Int(argsCopy[0]) {
+                if (validNum == 0) {
+                    return 1;
+                } else if (Int(argsCopy[0]) == nil) {
+                    return -1;
+                } else {
+                    var total : Int = validNum;
+                    var counter = validNum-1;
+                    while (counter != 0) {
+                        total = total * counter;
+                        counter -= 1;
+                    }
+                    return total;
+                }
+            }
+            return -1;
+        default:
+            return -1;
+    }
+    
 }
-
 //: Below this are the test expressions/calls to verify if your code is correct.
 //:
 //: ***DO NOT MODIFY ANYTHING BELOW THIS***
@@ -85,7 +326,7 @@ calculate("5 fact") == 120
 //: Implement `calculate([String])` and `calculate(String)` to handle negative numbers. You need only make the tests below pass. (You do not need to worry about "fact"/factorial with negative numbers, for example.)
 //:
 //: This is worth 1 pt
-/*
+
 calculate(["2", "+", "-2"]) == 0
 calculate(["2", "-", "-2"]) == 4
 calculate(["2", "*", "-2"]) == -4
@@ -100,7 +341,6 @@ calculate("2 - -2") == 4
 calculate("-2 / 2") == -1
 
 calculate("1 -2 3 -4 5 count") == 5
-*/
  
 //: Implement `calculate([String])` and `calculate(String)` to use 
 //: and return floating-point values. You need only make the tests 
@@ -112,12 +352,85 @@ calculate("1 -2 3 -4 5 count") == 5
 //: Integer-based versions above.
 //: 
 //: This is worth 1 pt
-/*
+
 func calculate(_ args: [String]) -> Double {
-    return -1.0
+    guard args.count >= 2 else {
+        return 0;
+    }
+    
+    var argsCopy = args;
+    var arr : [String] = ["+", "-", "*", "/", "%", "count", "avg", "fact"];
+    var expression : String = "";
+
+
+    var index = 0;
+    while (index != argsCopy.count) {
+        if (arr.contains(argsCopy[index])) {
+            expression = argsCopy[index];
+            argsCopy.remove(at: index);
+        }
+        else {
+            index += 1;
+
+        }
+    }
+    
+    switch expression {
+        case "+":
+            var total : Double = 0.0;
+            total = Double(argsCopy[0])! + Double(argsCopy[1])!
+            //if you're only expecting two numbers... otherwise, you should loop like what I did above.
+            //also, you can unwrap optionals using ! or if/else statement
+            return total;
+        case "-":
+            var total : Double = Double(argsCopy[0])!;
+            total = total - Double(argsCopy[1])!;
+            return total;
+        case "*":
+            var total : Double = Double(argsCopy[0])!;
+            total = Double(argsCopy[0])! * Double(argsCopy[1])!;
+            return total;
+        case "/":
+            var total : Double = Double(argsCopy[0])!;
+            total = Double(argsCopy[0])! / Double(argsCopy[1])!;
+            return total;
+        case "%":
+            var total : Double = Double(argsCopy[0])!;
+            total = Double(argsCopy[0])!.truncatingRemainder(dividingBy: Double(argsCopy[1])!);
+            return total;
+        default:
+            return -1;
+    }
 }
+
+
 func calculate(_ arg: String) -> Double {
-    return -1.0
+    guard arg.count > 0 else {
+        return 0;
+    }
+    
+    var argsCopy = arg.split(separator: " ");
+    let test = argsCopy.count
+    
+    var expression : String = ""
+    var arr : [String] = ["+", "-", "*", "/", "%", "count", "avg", "fact"];
+    var counter : Int = 0
+    while (counter <= argsCopy.count-1) {
+        let stringVal = String(argsCopy[counter]);
+        if (arr.contains(stringVal)) {
+            expression = stringVal;
+            argsCopy.remove(at: counter);
+        } else {
+            counter += 1;
+        }
+    }
+    
+    switch expression {
+        case "count":
+            return Double(argsCopy.count);
+        default:
+            return -1;
+    }
 }
 
 calculate(["2.0", "+", "2.0"]) == 4.0
@@ -127,4 +440,4 @@ calculate(["2.5", "*", "2.5"]) == 6.25
 calculate(["2.0", "/", "2.0"]) == 1.0
 calculate(["2.0", "%", "2.0"]) == 0.0
 calculate("1.0 2.0 3.0 4.0 5.0 count") == 5.0
-*/
+
